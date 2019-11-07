@@ -1,0 +1,29 @@
+{
+  "name": "fbanderaapp",
+  "version": "1.0.0",
+  "description": "Office App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chubukas/fbAnderaApp.git"
+  },
+  "author": "Chukwuebuka Anyadiegwu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chubukas/fbAnderaApp/issues"
+  },
+  "homepage": "https://github.com/chubukas/fbAnderaApp#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^7.12.1",
+    "tslint": "^5.20.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "mocha": "^6.2.2"
+  }
+}
