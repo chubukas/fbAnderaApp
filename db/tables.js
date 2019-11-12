@@ -19,14 +19,14 @@ exports.gifTable = `CREATE TABLE IF NOT EXISTS
         title VARCHAR(255) NOT NULL,
         postedBy VARCHAR(255) NOT NULL,
         createdOn TIMESTAMP,
-        FOREIGN KEY (id) REFERENCES gifComment (id)
+        FOREIGN KEY (id) REFERENCES gifComment (id) on delete cascade on update cascade
       )`;
 
 exports.gifCommentTable = `CREATE TABLE IF NOT EXISTS
         gifComment(
         id serial PRIMARY KEY NOT NULL,
-        comment VARCHAR(255) NOT NULL,
-        postedBy VARCHAR(255555) NOT NULL,
+        comment VARCHAR(255555) NOT NULL,
+        postedBy VARCHAR(255) NOT NULL,
         createdOn TIMESTAMP
       )`;
 
@@ -34,16 +34,16 @@ exports.articleTable = `CREATE TABLE IF NOT EXISTS
       article(
         id serial PRIMARY KEY NOT NULL,
         title VARCHAR(255) NOT NULL,
-        article VARCHAR(255) NOT NULL,
-        postedBy VARCHAR(255555) NOT NULL,
+        article VARCHAR(255555) NOT NULL,
+        postedBy VARCHAR(255) NOT NULL,
         createdOn TIMESTAMP,
-        FOREIGN KEY (id) REFERENCES gifComment (id)
+        FOREIGN KEY (id) REFERENCES articleComment (id) on delete cascade on update cascade
       )`;
 
 exports.articleCommentTable = `CREATE TABLE IF NOT EXISTS
       articleComment(
         id serial PRIMARY KEY NOT NULL,
-        comment VARCHAR(255) NOT NULL,
-        postedBy VARCHAR(255555) NOT NULL,
+        comment VARCHAR(255555) NOT NULL,
+        postedBy VARCHAR(255) NOT NULL,
         createdOn TIMESTAMP
       )`;
