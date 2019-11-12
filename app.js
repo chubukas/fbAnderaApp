@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const dbConnect = require("./db/db");
 const app = express();
 const UserRouter = require("./routes/users");
+const articleRouter = require("./routes/article");
 
 dbConnect();
 
@@ -18,9 +19,11 @@ app.use((req, res, next) => {
   );
   next();
 });
-
+app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use("/auth", UserRouter);
+app.use("/articles", articleRouter);
 
 module.exports = app;

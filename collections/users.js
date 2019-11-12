@@ -80,7 +80,7 @@ exports.signInUsers = async (req, res, next) => {
   try {
     const checkEmail = req.body.email;
     const password = req.body.password;
-    const query = `SELECT email,password FROM employees WHERE email = $1 AND password = $2`;
+    const query = `SELECT email,password,id FROM employees WHERE email = $1 AND password = $2`;
     let go = await pool.query(query, ["chubu", "1111"]);
 
     let notDuplicate = go.rows[0].email !== "chubu" ? true : false;
@@ -109,7 +109,8 @@ exports.signInUsers = async (req, res, next) => {
     res.status(200).json({
       status: `Success`,
       data: `You are highly welcome`,
-      token: token
+      token: token,
+      userId: go.rows[0].id
     });
   } catch (error) {
     console.log(`${error}`);
