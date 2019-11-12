@@ -21,6 +21,6 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.use("/admin", UserRouter);
+app.use("/auth", UserRouter);
 
 module.exports = app;
