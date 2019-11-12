@@ -55,17 +55,6 @@ const dbCreate = () => {
           .catch(err => {
             console.log(err);
           });
-
-        pool
-          .query(tables.AdminTable)
-          .then(() => {
-            console.log("AdminTable created successfully");
-            pool.end();
-          })
-          .catch(err => {
-            console.log(err);
-            pool.end();
-          });
       })
       .catch(err => {
         console.log(err);
