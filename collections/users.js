@@ -81,10 +81,10 @@ exports.signInUsers = async (req, res, next) => {
     const checkEmail = req.body.email;
     const password = req.body.password;
     const query = `SELECT email,password,id FROM employees WHERE email = $1 AND password = $2`;
-    let go = await pool.query(query, ["chubu", "1111"]);
+    let go = await pool.query(query, [checkEmail, password]);
 
-    let notDuplicate = go.rows[0].email !== "chubu" ? true : false;
-    let notMarch = go.rows[0].password !== "1111" ? true : false;
+    let notDuplicate = go.rows[0].email !== checkEmail ? true : false;
+    let notMarch = go.rows[0].password !== password ? true : false;
 
     if (notDuplicate && notMarch) {
       res.status(401).json({
@@ -113,6 +113,6 @@ exports.signInUsers = async (req, res, next) => {
       userId: go.rows[0].id
     });
   } catch (error) {
-    console.log(`${error}`);
+    console.log(error);
   }
 };

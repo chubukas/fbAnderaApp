@@ -8,7 +8,7 @@ const pool = new Pool({
 exports.createArticle = (req, res, next) => {
   let date = new Date();
   let inputs = [req.body.title, req.body.article];
-  let query = `INSERT INTO article(title,article) VALUES ($1,$2) RETURNING *`;
+  let query = `INSERT INTO article(title,article,postedBy) VALUES ($1,$2,$3) RETURNING *`;
   let input = [
     "Good title",
     `Fails to implement
@@ -21,7 +21,8 @@ exports.createArticle = (req, res, next) => {
   project.
   Creates custom and
   descriptive error
-  messages.`
+  messages.`,
+    "mark writer"
   ];
 
   pool
