@@ -19,6 +19,15 @@ const dbCreate = () => {
             console.log("userTable created successfully");
           })
           .catch(err => {
+            console.log(`${err}`);
+          });
+
+        pool
+          .query(tables.gifTable)
+          .then(() => {
+            console.log("gifTable created successfully");
+          })
+          .catch(err => {
             console.log(err);
           });
         pool
@@ -29,10 +38,11 @@ const dbCreate = () => {
           .catch(err => {
             console.log(err);
           });
+
         pool
-          .query(tables.gifTable)
+          .query(tables.articleTable)
           .then(() => {
-            console.log("gifTable created successfully");
+            console.log("articleTable created successfully");
           })
           .catch(err => {
             console.log(err);
@@ -42,15 +52,6 @@ const dbCreate = () => {
           .query(tables.articleCommentTable)
           .then(() => {
             console.log("articleCommentTable created successfully");
-          })
-          .catch(err => {
-            console.log(err);
-          });
-
-        pool
-          .query(tables.articleTable)
-          .then(() => {
-            console.log("articleTable created successfully");
           })
           .catch(err => {
             console.log(err);
