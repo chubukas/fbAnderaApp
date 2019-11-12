@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const dbConnect = require("./db/db");
 const app = express();
+const UserRouter = require("./routes/users");
 
 dbConnect();
 
@@ -19,5 +20,7 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.json());
+
+app.use("/admin", UserRouter);
 
 module.exports = app;
