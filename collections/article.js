@@ -39,6 +39,6 @@ exports.createArticle = (req, res, next) => {
       });
     })
     .catch(err => {
-      res.status(404).json({ status: `${err}`, message: `Not Created` });
+      res.status(404).json({ status: err, message: `Not Created` });
     });
 };
