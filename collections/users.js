@@ -47,7 +47,7 @@ exports.createUsers = async (req, res, next) => {
         .then(result => {
           //json token
           const token = jwt.sign(
-            { id: result.rows[0].email },
+            { email: result.rows[0].email },
             "it has been fun",
             {
               expiresIn: "24hour"
@@ -79,35 +79,39 @@ exports.createUsers = async (req, res, next) => {
 exports.signInUsers = async (req, res, next) => {
   try {
     const checkEmail = req.body.email;
-    const query = `SELECT email FROM employees WHERE email = $1`;
-    let go = await pool.query(query, [checkEmail]);
-    let duplicate = go.rowCount > 0 ? true : false;
+    const password = req.body.password;
+    const query = `SELECT email,password FROM employees WHERE email = $1 AND password = $2`;
+    let go = await pool.query(query, ["chubu", "1111"]);
 
-    if (!duplicate) {
-      res.status(404).json({
+    let notDuplicate = go.rows[0].email !== "chubu" ? true : false;
+    let notMarch = go.rows[0].password !== "1111" ? true : false;
+
+    if (notDuplicate && notMarch) {
+      res.status(401).json({
         status: "error",
-        data: `We don't have you in our database, Please kindly register`
+        data: `User Is Not Registered, Please Resgister`
       });
-    } else {
-      const datas = {
-        email: checkEmail,
-        password: req.body.password
-      };
-
-      const query = `SELECT password FROM employees WHERE password = $1`;
-      let go = await pool.query(query, [datas.password]);
-      let duplicate = go.rowCount > 0 ? true : false;
-
-      if (!duplicate) {
-        res.status(404).json({
-          status: "error",
-          data: `Incorrect Password, Please try again`
-        });
-      } else {
-        res
-          .status(200)
-          .json({ status: `Success`, data: `You are highly welcome` });
-      }
+    } else if (notMarch && !notDuplicate) {
+      res.status(401).json({
+        status: "error",
+        data: `Incorrect Password: Please Enter the correct password`
+      });
+    } else if (!notMarch && notDuplicate) {
+      res.status(401).json({
+        status: "error",
+        data: `Incorrect Email: Please Enter the correct Email`
+      });
     }
-  } catch (error) {}
+    //json token
+    const token = jwt.sign({ email: go.rows[0].email }, "it has been fun", {
+      expiresIn: "24hour"
+    });
+    res.status(200).json({
+      status: `Success`,
+      data: `You are highly welcome`,
+      token: token
+    });
+  } catch (error) {
+    console.log(`${error}`);
+  }
 };
