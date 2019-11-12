@@ -12,6 +12,19 @@ exports.userTable = `CREATE TABLE IF NOT EXISTS
         address VARCHAR(255) NOT NULL
       )`;
 
+exports.AdminTable = `CREATE TABLE IF NOT EXISTS
+      Admin(
+        id serial PRIMARY KEY NOT NULL,
+        firstName VARCHAR(255) NOT NULL,
+        lastName VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        gender VARCHAR(255) NOT NULL,
+        jobRole VARCHAR(255) NOT NULL,
+        department VARCHAR(255) NOT NULL,
+        address VARCHAR(255) NOT NULL
+      )`;
+
 exports.gifTable = `CREATE TABLE IF NOT EXISTS
       gifs(
         id serial PRIMARY KEY NOT NULL,

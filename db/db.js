@@ -1,5 +1,5 @@
 const { Pool } = require("pg");
-const query = require("./tables");
+const tables = require("./tables");
 
 const dbCreate = () => {
   try {
@@ -14,47 +14,52 @@ const dbCreate = () => {
 
         // Connecting the tables
         pool
-          .query(query.userTable)
+          .query(tables.userTable)
           .then(() => {
             console.log("userTable created successfully");
           })
           .catch(err => {
             console.log(err);
-            pool.end();
           });
         pool
-          .query(query.gifCommentTable)
+          .query(tables.gifCommentTable)
           .then(() => {
             console.log("gifCommentTable created successfully");
           })
           .catch(err => {
             console.log(err);
-            pool.end();
           });
         pool
-          .query(query.gifTable)
+          .query(tables.gifTable)
           .then(() => {
             console.log("gifTable created successfully");
           })
           .catch(err => {
             console.log(err);
-            pool.end();
           });
 
         pool
-          .query(query.articleCommentTable)
+          .query(tables.articleCommentTable)
           .then(() => {
             console.log("articleCommentTable created successfully");
           })
           .catch(err => {
             console.log(err);
-            pool.end();
           });
 
         pool
-          .query(query.articleTable)
+          .query(tables.articleTable)
           .then(() => {
             console.log("articleTable created successfully");
+          })
+          .catch(err => {
+            console.log(err);
+          });
+
+        pool
+          .query(tables.AdminTable)
+          .then(() => {
+            console.log("AdminTable created successfully");
             pool.end();
           })
           .catch(err => {
