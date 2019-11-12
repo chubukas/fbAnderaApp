@@ -1,10 +1,11 @@
 const { Pool } = require("pg");
 const query = require("./tables");
+require("dotenv").config();
 
 const dbCreate = () => {
   try {
     const pool = new Pool({
-      connectionString: "postgres://postgres:student55@127.0.0.1:5432/teamwork"
+      connectionString: process.env.DB_HOST
     });
 
     pool
@@ -19,8 +20,7 @@ const dbCreate = () => {
             console.log("userTable created successfully");
           })
           .catch(err => {
-            console.log(err);
-            pool.end();
+            console.error(`${err}: This error was found in userTable`);
           });
         pool
           .query(query.gifCommentTable)
@@ -28,8 +28,7 @@ const dbCreate = () => {
             console.log("gifCommentTable created successfully");
           })
           .catch(err => {
-            console.log(err);
-            pool.end();
+            console.error(`${err}: This error was found in gifCommentTable`);
           });
         pool
           .query(query.gifTable)
@@ -37,8 +36,7 @@ const dbCreate = () => {
             console.log("gifTable created successfully");
           })
           .catch(err => {
-            console.log(err);
-            pool.end();
+            console.error(`${err}: This error was found in gifTable`);
           });
 
         pool
@@ -47,23 +45,24 @@ const dbCreate = () => {
             console.log("articleCommentTable created successfully");
           })
           .catch(err => {
-            console.log(err);
-            pool.end();
+            console.error(
+              `${err}: This error was found in articleCommentTable`
+            );
           });
 
         pool
           .query(query.articleTable)
           .then(() => {
             console.log("articleTable created successfully");
-            pool.end();
           })
           .catch(err => {
-            console.log(err);
+            console.error(`${err}: This error was found in articleTable`);
             pool.end();
           });
       })
       .catch(err => {
         console.log(err);
+        pool.end();
       });
   } catch (error) {
     console.log(`This is the catch error ${error} `);

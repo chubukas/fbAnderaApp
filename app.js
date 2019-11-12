@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const dbConnect = require("./db/db");
-const employees = require("./routes/employees");
+const employees = require("./routes/users");
 const app = express();
 
 dbConnect();
