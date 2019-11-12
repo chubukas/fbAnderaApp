@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const dbConnect = require("./db/db");
-const employees = require("./routes/users");
 const app = express();
 
 dbConnect();
@@ -20,7 +19,5 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.json());
-
-app.use("/auth", employees);
 
 module.exports = app;
