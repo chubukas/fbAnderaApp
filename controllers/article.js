@@ -72,7 +72,7 @@ exports.getArticles = (req, res, next) => {
 
 exports.deleteArticle = (req, res, next) => {
   let paraId = Number.parseInt(req.params.id);
-  let query = `DELETE FROM article a USING articlecomment ac WHERE a.id = $1  AND a.id = ac.id`;
+  let query = `DELETE FROM article WHERE id = $1`;
 
   pool
     .query(query, [paraId])
@@ -92,6 +92,47 @@ exports.deleteArticle = (req, res, next) => {
 };
 
 exports.updateArticle = (req, res, next) => {
+  let query = `UPDATE article set title = $1 , article = $2 WHERE id = $3 RETURNING *`;
   let paraId = Number.parseInt(req.params.id);
-  let query = ``;
+
+  pool
+    .query(query, [req.body.title, req.body.article, req.params.id])
+    .then(datas => {
+      res.status(200).json({
+        status: "Successfully",
+        data: {
+          message: "Article successfully updated",
+          title: datas.rows[0].title,
+          article: datas.rows[0].article
+        }
+      });
+    })
+    .catch(err => {
+      res.status(404).json({ error: `${err}` });
+    });
+};
+
+exports.postComment = (req, res, next) => {
+  let artculeID = req.params.artculeid;
+  let comment = req.body.comment;
+  let data = new Date();
+  let query = `INSERT INTO articleComment (comment, createdon, articleid) VALUES ($1, $2, (SELECT id FROM article WHERE id = $3))  RETURNING *`;
+
+  pool
+    .query(query, [comment, data, artculeID])
+    .then(datas => {
+      res.status(201).json({
+        status: "success",
+        data: {
+          message: "Comment successfully created",
+          createdOn: DateTime,
+          articleTitle: datas.rows[0].title,
+          article: datas.rows[0].article,
+          comment: datas.rows[0].comment
+        }
+      });
+    })
+    .catch(err => {
+      res.status(404).json({ err: `${err}` });
+    });
 };
