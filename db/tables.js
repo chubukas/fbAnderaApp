@@ -17,7 +17,7 @@ exports.gifTable = `CREATE TABLE IF NOT EXISTS
         id serial PRIMARY KEY NOT NULL,
         image VARCHAR(255) NOT NULL,
         title VARCHAR(255) NOT NULL,
-        postedBy VARCHAR(255) NOT NULL,
+        postedBy VARCHAR(255),
         createdOn TIMESTAMP
       )`;
 
@@ -26,7 +26,7 @@ exports.gifCommentTable = `CREATE TABLE IF NOT EXISTS
         id serial PRIMARY KEY NOT NULL,
         comment VARCHAR(255555) NOT NULL,
         gifID INTEGER NOT NULL,
-        postedBy VARCHAR(255) NOT NULL,
+        postedBy VARCHAR(255),
         createdOn TIMESTAMP,
         FOREIGN KEY (gifID) REFERENCES gifs (id) on delete cascade on update cascade
       )`;
@@ -45,7 +45,7 @@ exports.articleCommentTable = `CREATE TABLE IF NOT EXISTS
         id serial PRIMARY KEY NOT NULL,
         comment VARCHAR(255555) NOT NULL,
         articleID INTEGER NOT NULL,
-        postedBy VARCHAR(255) NOT NULL,
+        postedBy VARCHAR(255),
         createdOn TIMESTAMP,
         FOREIGN KEY (articleID) REFERENCES article (id) on delete cascade on update cascade
       )`;
