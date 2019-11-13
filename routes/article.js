@@ -1,9 +1,11 @@
 const express = require("express");
-const articleCollection = require("../collections/article");
+const articleConroller = require("../controllers/article");
 const auth = require("../middlewares/auth");
 
 const route = express.Router();
 
-route.post("/", articleCollection.createArticle);
+route.post("/", articleConroller.createArticle);
+route.get("/:id", articleConroller.getArticles);
+route.delete("/:id", articleConroller.deleteArticle);
 
 module.exports = route;

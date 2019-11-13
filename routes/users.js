@@ -1,5 +1,5 @@
 const express = require("express");
-const usersCollections = require("../collections/users");
+const usersCollections = require("../controllers/users");
 const auth = require("../middlewares/auth");
 
 const route = express.Router();
