@@ -44,7 +44,8 @@ exports.createArticle = (req, res, next) => {
 // GET A ONE ARTICLE
 exports.getArticles = (req, res, next) => {
   let paraId = Number.parseInt(req.params.id);
-  let query = `SELECT * FROM article WHERE id = $1`;
+  // let query = `SELECT a.title,a.id,a.createdon,a.article,ac.* FROM article a,articleComment ac  WHERE ac.articleid = $1  `;
+  let query = `SELECT a.title,a.id,a.createdon,a.article,ac.id,ac.comment,ac.articleid FROM article a,articleComment ac INNER JOIN articleComment  ON ac.articleid  = $1  `;
 
   pool
     .query(query, [paraId])
@@ -57,14 +58,14 @@ exports.getArticles = (req, res, next) => {
           createdOn: date,
           title: datas.rows[0].title,
           article: datas.rows[0].article,
-          comments: []
+          comments: datas.rows
         }
       });
     })
     .catch(err => {
       res
         .status(404)
-        .json({ status: `Error`, message: `Not Available`, paraId });
+        .json({ status: `${err}`, message: `Not Available`, paraId });
     });
 };
 
@@ -91,6 +92,8 @@ exports.deleteArticle = (req, res, next) => {
     .catch(err => {});
 };
 
+// UPDATING ARTICLE
+
 exports.updateArticle = (req, res, next) => {
   let query = `UPDATE article set title = $1 , article = $2 WHERE id = $3 RETURNING *`;
   let paraId = Number.parseInt(req.params.id);
@@ -112,11 +115,13 @@ exports.updateArticle = (req, res, next) => {
     });
 };
 
+// POSTING COMMENT
+
 exports.postComment = (req, res, next) => {
   let artculeID = req.params.artculeid;
   let comment = req.body.comment;
   let data = new Date();
-  let query = `INSERT INTO articleComment (comment, createdon, articleid) VALUES ($1, $2, (SELECT id FROM article WHERE id = $3))  RETURNING *`;
+  let query = `INSERT INTO articleComment (comment, createdon, articleid) VALUES ($1, $2, (SELECT id FROM article WHERE id = $3)) RETURNING *`;
 
   pool
     .query(query, [comment, data, artculeID])
@@ -125,7 +130,7 @@ exports.postComment = (req, res, next) => {
         status: "success",
         data: {
           message: "Comment successfully created",
-          createdOn: DateTime,
+          createdOn: `${datas.rows[0].createdon.toLocaleDateString()} ${datas.rows[0].createdon.toLocaleTimeString()}`,
           articleTitle: datas.rows[0].title,
           article: datas.rows[0].article,
           comment: datas.rows[0].comment
