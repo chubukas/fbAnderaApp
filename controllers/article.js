@@ -5,22 +5,11 @@ const pool = new Pool({
   connectionString: process.env.DB_HOST
 });
 
+// CREATE NEW ARTICLE
 exports.createArticle = (req, res, next) => {
   let date = new Date();
-  let inputs = [req.body.title, req.body.article];
   let query = `INSERT INTO article(title,article,postedBy,createdOn) VALUES ($1,$2,$3,$4) RETURNING *`;
-  let input = [
-    "making money",
-    `authentication and
-  authorization in given
-  project.
-  project.
-  Creates custom and
-  descriptive error
-  messages.`,
-    "Timothy Ben",
-    date
-  ];
+  let input = [req.body.title, req.body.article, req.body.postedBy, date];
 
   pool
     .query(query, input)
@@ -44,28 +33,58 @@ exports.createArticle = (req, res, next) => {
 // GET A ONE ARTICLE
 exports.getArticles = (req, res, next) => {
   let paraId = Number.parseInt(req.params.id);
-  // let query = `SELECT a.title,a.id,a.createdon,a.article,ac.* FROM article a,articleComment ac  WHERE ac.articleid = $1  `;
-  let query = `SELECT a.title,a.id,a.createdon,a.article,ac.id,ac.comment,ac.articleid FROM article a,articleComment ac INNER JOIN articleComment  ON ac.articleid  = $1  `;
-
+  let query = `SELECT * FROM articleComment where articleid = $1`;
   pool
     .query(query, [paraId])
     .then(datas => {
-      let date = `${datas.rows[0].createdon.toLocaleDateString()} ${datas.rows[0].createdon.toLocaleTimeString()}`;
-      res.status(200).json({
-        status: "Success",
-        data: {
-          id: datas.rows[0].id,
-          createdOn: date,
-          title: datas.rows[0].title,
-          article: datas.rows[0].article,
-          comments: datas.rows
-        }
-      });
+      if (datas.rowCount >= 1) {
+        let query = `SELECT  a.id, a.createdon,a.title,a.article,ac.id, comment, ac.articleid FROM articleComment ac INNER JOIN article a ON  a.id = ac.articleid WHERE ac.articleid = $1`;
+
+        pool
+          .query(query, [paraId])
+          .then(data => {
+            let date = `${data.rows[0].createdon.toLocaleDateString()} ${data.rows[0].createdon.toLocaleTimeString()}`;
+            res.status(200).json({
+              status: "Success",
+              data: {
+                id: data.rows[0].id,
+                createdOn: date,
+                title: data.rows[0].title,
+                article: data.rows[0].article,
+                comments: data.rows
+              }
+            });
+          })
+          .catch(err => {
+            res.send(err);
+          });
+      }
+      let query = `SELECT * FROM article where id = $1`;
+
+      pool
+        .query(query, [paraId])
+        .then(theData => {
+          let date = `${theData.rows[0].createdon.toLocaleDateString()} ${theData.rows[0].createdon.toLocaleTimeString()}`;
+          res.json({
+            status: "Success",
+            data: {
+              id: theData.rows[0].id,
+              createdOn: date,
+              title: theData.rows[0].title,
+              article: theData.rows[0].article,
+              comments: [{ message: "No Comment For This Article" }]
+            }
+          });
+        })
+        .catch(err => {
+          res.json({
+            massage: `We don't have this article in our database `,
+            Error: err
+          });
+        });
     })
     .catch(err => {
-      res
-        .status(404)
-        .json({ status: `${err}`, message: `Not Available`, paraId });
+      res.status(404).json({ status: `${err}`, message: `Not Available` });
     });
 };
 
@@ -139,5 +158,25 @@ exports.postComment = (req, res, next) => {
     })
     .catch(err => {
       res.status(404).json({ err: `${err}` });
+    });
+};
+
+// GET A ALL ARTICLE
+exports.getAllArticles = (req, res, next) => {
+  let query = `SELECT  id,createdon,title,article,id as authorid FROM article ORDER BY createdon`;
+
+  pool
+    .query(query)
+    .then(datas => {
+      let date = `${datas.rows[0].createdon.toLocaleDateString()} ${datas.rows[0].createdon.toLocaleTimeString()}`;
+      res.status(200).json({
+        status: "Success",
+        data: datas.rows
+      });
+    })
+    .catch(err => {
+      res
+        .status(404)
+        .json({ status: `${err}`, message: `Not Available`, paraId });
     });
 };

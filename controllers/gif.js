@@ -93,21 +93,72 @@ exports.postGifComment = (req, res, next) => {
 // GET A ONE GIF
 exports.getGif = (req, res, next) => {
   let paraId = Number.parseInt(req.params.gifid);
-  let query = `SELECT g.*,gc.* FROM gifs g,gifComment gc  WHERE gc.gifid = $1  `;
-
+  let query = `SELECT * FROM gifComment where gifid = $1`;
   pool
     .query(query, [paraId])
+    .then(datas => {
+      if (datas.rowCount >= 1) {
+        let query = `SELECT  g.id, g.createdon,g.title,g.image,gc.id, comment, gc.gifid FROM gifComment gc INNER JOIN gifs g ON  g.id = gc.gifid WHERE gc.gifid = $1`;
+
+        pool
+          .query(query, [paraId])
+          .then(data => {
+            let date = `${data.rows[0].createdon.toLocaleDateString()} ${data.rows[0].createdon.toLocaleTimeString()}`;
+            res.status(200).json({
+              status: "Success",
+              data: {
+                id: datas.rows[0].id,
+                createdOn: date,
+                title: datas.rows[0].title,
+                imageUrl: datas.rows[0].image,
+                comments: datas.rows
+              }
+            });
+          })
+          .catch(err => {
+            res.send(err);
+          });
+      }
+      let query = `SELECT * FROM gifs where id = $1`;
+
+      pool
+        .query(query, [paraId])
+        .then(theData => {
+          let date = `${theData.rows[0].createdon.toLocaleDateString()} ${theData.rows[0].createdon.toLocaleTimeString()}`;
+          res.json({
+            status: "Success",
+            data: {
+              id: datas.rows[0].id,
+              createdOn: date,
+              title: datas.rows[0].title,
+              imageUrl: datas.rows[0].image,
+              comments: [{ message: "No Comment For This Gif" }]
+            }
+          });
+        })
+        .catch(err => {
+          res.json({
+            massage: `We don't have this Gif in our database `,
+            Error: err
+          });
+        });
+    })
+    .catch(err => {
+      res.status(404).json({ status: `${err}`, message: `Not Available` });
+    });
+};
+
+// GET  ALL GIFs
+exports.getAllGifs = (req, res, next) => {
+  let query = `SELECT  id,createdon,title,image as url,id as authorid FROM gifs ORDER BY createdon`;
+
+  pool
+    .query(query)
     .then(datas => {
       let date = `${datas.rows[0].createdon.toLocaleDateString()} ${datas.rows[0].createdon.toLocaleTimeString()}`;
       res.status(200).json({
         status: "Success",
-        data: {
-          id: datas.rows[0].id,
-          createdOn: date,
-          title: datas.rows[0].title,
-          imageUrl: datas.rows[0].image,
-          comments: datas.rows
-        }
+        data: datas.rows
       });
     })
     .catch(err => {

@@ -4,10 +4,18 @@ const auth = require("../middlewares/auth");
 
 const route = express.Router();
 
-route.post("/", articleConroller.createArticle);
-route.get("/:id", articleConroller.getArticles);
-route.delete("/:id", articleConroller.deleteArticle);
-route.patch("/:id", articleConroller.updateArticle);
-route.post("/:artculeid/comment", articleConroller.postComment);
+//GET ROUTE
+route.get("/:id/v1", articleConroller.getArticles);
+route.get("/v1", articleConroller.getAllArticles);
+
+//POST ROUTE
+route.post("/v1", articleConroller.createArticle);
+route.post("/:artculeid/comment/v1", articleConroller.postComment);
+
+// DELETE ROUTE
+route.delete("/:id/v1", articleConroller.deleteArticle);
+
+//UPDATE ROUTE
+route.patch("/:id/v1", articleConroller.updateArticle);
 
 module.exports = route;

@@ -4,9 +4,15 @@ const upload = require("../middlewares/multer");
 
 const route = express.Router();
 
-route.post("/", upload.single("image"), gifController.createGif);
-route.delete("/:id", gifController.deleteGif);
-route.post("/:gifid/comment", gifController.postGifComment);
-route.get("/:gifid", gifController.getGif);
+//GET ROUTES
+route.get("/:gifid/v1", gifController.getGif);
+route.get("/v1", gifController.getAllGifs);
+
+//POST ROUTES
+route.post("/v1", upload.single("image"), gifController.createGif);
+route.post("/:gifid/comment/v1", gifController.postGifComment);
+
+//DELETE ROUTES
+route.delete("/:id/v1", gifController.deleteGif);
 
 module.exports = route;
