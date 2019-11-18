@@ -61,6 +61,7 @@ exports.getArticles = (req, res, next) => {
             res.send(err);
           });
       }
+
       let query = `SELECT * FROM article where id = $1`;
 
       pool
@@ -80,13 +81,15 @@ exports.getArticles = (req, res, next) => {
         })
         .catch(err => {
           res.json({
-            massage: `We don't have this article in our database `,
-            Error: err
+            status: "Error",
+            data: {
+              massage: `We don't have this article in our database `
+            }
           });
         });
     })
     .catch(err => {
-      res.status(404).json({ status: `${err}`, message: `Not Available` });
+      res.status(404).json({ status: `Error`, message: `Not Available` });
     });
 };
 
@@ -102,12 +105,12 @@ exports.deleteArticle = (req, res, next) => {
       if (datas.rowCount < 1) {
         res.status(404).json({
           status: "Not Available",
-          data: { message: "No Such Articule is our Database" }
+          data: { message: "No Such Article is our Database" }
         });
       }
       res.status(200).json({
         status: "Success",
-        data: { message: "Articule Deleted Successfully" }
+        data: { message: "Article Deleted Successfully" }
       });
     })
     .catch(err => {});
