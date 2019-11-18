@@ -1,6 +1,8 @@
 const { Pool } = require("pg");
+
 const query = require("./tables");
 require("dotenv").config();
+
 
 const dbCreate = () => {
   try {
@@ -15,49 +17,60 @@ const dbCreate = () => {
 
         // Connecting the tables
         pool
-          .query(query.userTable)
+          .query(tables.userTable)
           .then(() => {
             console.log("userTable created successfully");
           })
           .catch(err => {
+
             console.error(`${err}: This error was found in userTable`);
+
           });
+
         pool
-          .query(query.gifCommentTable)
-          .then(() => {
-            console.log("gifCommentTable created successfully");
-          })
-          .catch(err => {
-            console.error(`${err}: This error was found in gifCommentTable`);
-          });
-        pool
-          .query(query.gifTable)
+          .query(tables.gifTable)
           .then(() => {
             console.log("gifTable created successfully");
           })
           .catch(err => {
+
+            console.error(`${err}: This error was found in gifCommentTable`);
+
+          });
+        pool
+          .query(tables.gifCommentTable)
+          .then(() => {
+            console.log("gifCommentTable created successfully");
+          })
+          .catch(err => {
+
             console.error(`${err}: This error was found in gifTable`);
+
           });
 
         pool
-          .query(query.articleCommentTable)
+          .query(tables.articleTable)
           .then(() => {
-            console.log("articleCommentTable created successfully");
+            console.log("articleTable created successfully");
           })
           .catch(err => {
+
             console.error(
               `${err}: This error was found in articleCommentTable`
             );
+
           });
 
         pool
-          .query(query.articleTable)
+          .query(tables.articleCommentTable)
           .then(() => {
+
             console.log("articleTable created successfully");
           })
           .catch(err => {
             console.error(`${err}: This error was found in articleTable`);
             pool.end();
+
           });
       })
       .catch(err => {
