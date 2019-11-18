@@ -49,7 +49,7 @@ describe("GIF APIs", () => {
     });
   });
 
-  describe("DELETE /AN Article", () => {
+  describe("/DELETE a Gifs", () => {
     it("Should give an Error", done => {
       let value = { id: "0" };
       chai
@@ -63,7 +63,7 @@ describe("GIF APIs", () => {
     });
   });
 
-  describe("/UPDATE an Article", () => {
+  describe("/UPDATE a Gifs", () => {
     it("Should Get an Error", done => {
       chai
         .request(app)
