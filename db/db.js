@@ -1,5 +1,13 @@
 const { Pool } = require("pg");
+
 const tables = require("./tables");
+
+
+
+require("dotenv").config();
+
+
+
 
 const dbCreate = () => {
   try {
@@ -19,7 +27,12 @@ const dbCreate = () => {
             console.log("userTable created successfully");
           })
           .catch(err => {
-            console.log(`${err}`);
+
+
+
+            console.error(`${err}: This error was found in userTable`);
+
+
           });
 
         pool
@@ -28,7 +41,12 @@ const dbCreate = () => {
             console.log("gifTable created successfully");
           })
           .catch(err => {
-            console.log(err);
+
+
+
+            console.error(`${err}: This error was found in gifCommentTable`);
+
+
           });
         pool
           .query(tables.gifCommentTable)
@@ -36,7 +54,12 @@ const dbCreate = () => {
             console.log("gifCommentTable created successfully");
           })
           .catch(err => {
-            console.log(err);
+
+
+
+            console.error(`${err}: This error was found in gifTable`);
+
+
           });
 
         pool
@@ -45,7 +68,14 @@ const dbCreate = () => {
             console.log("articleTable created successfully");
           })
           .catch(err => {
-            console.log(err);
+
+
+
+            console.error(
+              `${err}: This error was found in articleCommentTable`
+            );
+
+
           });
 
         pool
