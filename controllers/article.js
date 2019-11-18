@@ -10,6 +10,7 @@ exports.createArticle = (req, res, next) => {
   let date = new Date();
   let query = `INSERT INTO article(title,article,postedBy,createdOn) VALUES ($1,$2,$3,$4) RETURNING *`;
   let input = [req.body.title, req.body.article, req.body.postedBy, date];
+  req.setHeader("Authorization", "Bearer" + token);
 
   pool
     .query(query, input)
@@ -34,6 +35,7 @@ exports.createArticle = (req, res, next) => {
 exports.getArticles = (req, res, next) => {
   let paraId = Number.parseInt(req.params.id);
   let query = `SELECT * FROM articleComment where articleid = $1`;
+  req.setHeader("Authorization", "Bearer" + token);
   pool
     .query(query, [paraId])
     .then(datas => {
@@ -93,7 +95,7 @@ exports.getArticles = (req, res, next) => {
 exports.deleteArticle = (req, res, next) => {
   let paraId = Number.parseInt(req.params.id);
   let query = `DELETE FROM article WHERE id = $1`;
-
+  req.setHeader("Authorization", "Bearer" + token);
   pool
     .query(query, [paraId])
     .then(datas => {
@@ -116,7 +118,7 @@ exports.deleteArticle = (req, res, next) => {
 exports.updateArticle = (req, res, next) => {
   let query = `UPDATE article set title = $1 , article = $2 WHERE id = $3 RETURNING *`;
   let paraId = Number.parseInt(req.params.id);
-
+  req.setHeader("Authorization", "Bearer" + token);
   pool
     .query(query, [req.body.title, req.body.article, req.params.id])
     .then(datas => {
@@ -141,6 +143,7 @@ exports.postComment = (req, res, next) => {
   let comment = req.body.comment;
   let data = new Date();
   let query = `INSERT INTO articleComment (comment, createdon, articleid) VALUES ($1, $2, (SELECT id FROM article WHERE id = $3)) RETURNING *`;
+  req.setHeader("Authorization", "Bearer" + token);
 
   pool
     .query(query, [comment, data, artculeID])
@@ -164,6 +167,7 @@ exports.postComment = (req, res, next) => {
 // GET A ALL ARTICLE
 exports.getAllArticles = (req, res, next) => {
   let query = `SELECT  id,createdon,title,article,id as authorid FROM article ORDER BY createdon`;
+  req.setHeader("Authorization", "Bearer" + token);
 
   pool
     .query(query)
