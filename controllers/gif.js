@@ -27,7 +27,7 @@ exports.createGif = (req, res, next) => {
             status: "Success",
             data: {
               gifId: datas.rows[0].id,
-              message: "GIF image successfully posted”",
+              message: "GIF image successfully posted",
               createdOn: `${datas.rows[0].createdon.toLocaleDateString()} ${datas.rows[0].createdon.toLocaleTimeString()}`,
               title: datas.rows[0].title,
               imageUrl: datas.rows[0].image

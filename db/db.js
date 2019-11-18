@@ -1,13 +1,17 @@
 const { Pool } = require("pg");
 
-const query = require("./tables");
+const tables = require("./tables");
+
+
+
 require("dotenv").config();
+
 
 
 const dbCreate = () => {
   try {
     const pool = new Pool({
-      connectionString: process.env.DB_HOST
+      connectionString: "postgres://postgres:student55@127.0.0.1:5432/teamwork"
     });
 
     pool
@@ -23,6 +27,7 @@ const dbCreate = () => {
           })
           .catch(err => {
 
+
             console.error(`${err}: This error was found in userTable`);
 
           });
@@ -34,6 +39,7 @@ const dbCreate = () => {
           })
           .catch(err => {
 
+
             console.error(`${err}: This error was found in gifCommentTable`);
 
           });
@@ -43,6 +49,7 @@ const dbCreate = () => {
             console.log("gifCommentTable created successfully");
           })
           .catch(err => {
+
 
             console.error(`${err}: This error was found in gifTable`);
 
@@ -54,6 +61,7 @@ const dbCreate = () => {
             console.log("articleTable created successfully");
           })
           .catch(err => {
+
 
             console.error(
               `${err}: This error was found in articleCommentTable`
@@ -75,7 +83,6 @@ const dbCreate = () => {
       })
       .catch(err => {
         console.log(err);
-        pool.end();
       });
   } catch (error) {
     console.log(`This is the catch error ${error} `);

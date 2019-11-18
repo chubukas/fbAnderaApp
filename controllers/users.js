@@ -75,8 +75,9 @@ exports.signInUsers = async (req, res, next) => {
         if (result.rowCount < 1) {
           res.status(401).json({
             status: "error",
-            data: `User Is Not Registered, Please Resgister`
+            data: { message: `User Is Not Registered, Please Resgister` }
           });
+          stop();
         }
         const query = `SELECT email,password,id FROM employees WHERE email = $1 AND password = $2`;
         pool
@@ -85,8 +86,11 @@ exports.signInUsers = async (req, res, next) => {
             if (password !== datas.rows[0].password) {
               res.status(401).json({
                 status: "error",
-                data: `Password Mismatch, Please enter the right password`
+                data: {
+                  message: `Password Mismatch, Please enter the right password`
+                }
               });
+              stop();
             } else {
               //json token
               const token = jwt.sign(
@@ -98,9 +102,11 @@ exports.signInUsers = async (req, res, next) => {
               );
               res.status(200).json({
                 status: `Success`,
-                data: `You are highly welcome`,
-                token: token,
-                userId: datas.rows[0].id
+                data: {
+                  message: `You are highly welcome`,
+                  token: token,
+                  userId: datas.rows[0].id
+                }
               });
             }
           })
@@ -113,7 +119,7 @@ exports.signInUsers = async (req, res, next) => {
           });
       })
       .catch(err => {
-        res.json({ err: `${err}` });
+        // res.json({ err: `${err}` });
       });
   } catch (error) {
     console.log(error);
