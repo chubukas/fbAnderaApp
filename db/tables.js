@@ -37,7 +37,9 @@ exports.articleTable = `CREATE TABLE IF NOT EXISTS
         title VARCHAR(255) NOT NULL,
         article VARCHAR(255555) NOT NULL,
 
+
         postedBy VARCHAR(255),
+
 
         createdOn TIMESTAMP
       )`;

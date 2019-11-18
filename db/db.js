@@ -8,6 +8,7 @@ require("dotenv").config();
 
 
 
+
 const dbCreate = () => {
   try {
     const pool = new Pool({
@@ -28,7 +29,9 @@ const dbCreate = () => {
           .catch(err => {
 
 
+
             console.error(`${err}: This error was found in userTable`);
+
 
           });
 
@@ -40,7 +43,9 @@ const dbCreate = () => {
           .catch(err => {
 
 
+
             console.error(`${err}: This error was found in gifCommentTable`);
+
 
           });
         pool
@@ -51,7 +56,9 @@ const dbCreate = () => {
           .catch(err => {
 
 
+
             console.error(`${err}: This error was found in gifTable`);
+
 
           });
 
@@ -63,22 +70,21 @@ const dbCreate = () => {
           .catch(err => {
 
 
+
             console.error(
               `${err}: This error was found in articleCommentTable`
             );
+
 
           });
 
         pool
           .query(tables.articleCommentTable)
           .then(() => {
-
-            console.log("articleTable created successfully");
+            console.log("articleCommentTable created successfully");
           })
           .catch(err => {
-            console.error(`${err}: This error was found in articleTable`);
-            pool.end();
-
+            console.log(err);
           });
       })
       .catch(err => {

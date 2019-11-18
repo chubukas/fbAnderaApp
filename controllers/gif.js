@@ -10,6 +10,7 @@ exports.createGif = (req, res, next) => {
     imageTitle: req.body.title,
     imageid: ""
   };
+  req.setHeader("Authorization", "Bearer" + token);
   cloud
     .uploads(imageDetails.image)
     .then(result => {
@@ -46,7 +47,7 @@ exports.createGif = (req, res, next) => {
 exports.deleteGif = (req, res, next) => {
   let paraId = Number.parseInt(req.params.id);
   let query = `DELETE FROM gifs WHERE id = $1`;
-
+  req.setHeader("Authorization", "Bearer" + token);
   pool
     .query(query, [paraId])
     .then(datas => {
@@ -71,7 +72,7 @@ exports.postGifComment = (req, res, next) => {
   let comment = req.body.comment;
   let data = new Date();
   let query = `INSERT INTO gifComment (comment, createdon, gifid) VALUES ($1, $2, (SELECT id FROM gifs WHERE id = $3)) RETURNING *`;
-
+  req.setHeader("Authorization", "Bearer" + token);
   pool
     .query(query, [comment, data, gifID])
     .then(datas => {
@@ -94,6 +95,7 @@ exports.postGifComment = (req, res, next) => {
 exports.getGif = (req, res, next) => {
   let paraId = Number.parseInt(req.params.gifid);
   let query = `SELECT * FROM gifComment where gifid = $1`;
+  req.setHeader("Authorization", "Bearer" + token);
   pool
     .query(query, [paraId])
     .then(datas => {
@@ -116,7 +118,7 @@ exports.getGif = (req, res, next) => {
             });
           })
           .catch(err => {
-            res.send(err);
+            console.log(err);
           });
       }
       let query = `SELECT * FROM gifs where id = $1`;
@@ -151,6 +153,7 @@ exports.getGif = (req, res, next) => {
 // GET  ALL GIFs
 exports.getAllGifs = (req, res, next) => {
   let query = `SELECT  id,createdon,title,image as url,id as authorid FROM gifs ORDER BY createdon`;
+  req.setHeader("Authorization", "Bearer" + token);
 
   pool
     .query(query)
