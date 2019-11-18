@@ -2,6 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const dbConnect = require("./db/db");
 const app = express();
+const UserRouter = require("./routes/users");
+const articleRouter = require("./routes/article");
+const gifRouter = require("./routes/gif");
 
 dbConnect();
 
@@ -17,7 +20,13 @@ app.use((req, res, next) => {
   );
   next();
 });
-
+app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use("/gifs", express.static("image"));
+
+app.use("/auth", UserRouter);
+app.use("/articles", articleRouter);
+app.use("/gifs", gifRouter);
 
 module.exports = app;
