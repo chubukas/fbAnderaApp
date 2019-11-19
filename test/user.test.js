@@ -11,7 +11,7 @@ const { expect } = chai;
 
 chai.use(chaiHttp);
 describe("Users", function() {
-  this.timeout("5s");
+  this.timeout("30s");
   describe("/POST Users", () => {
     it("Should send the user in the database", done => {
       const value = {
@@ -37,8 +37,8 @@ describe("Users", function() {
           );
           expect(res.body.data).to.have.property("token");
           expect(res.body.data).to.have.property("userId");
-          done();
         });
+      done();
     });
   });
 
@@ -56,8 +56,8 @@ describe("Users", function() {
             "User Is Not Registered, Please Resgister"
           );
           expect(res.body.status).to.equals("error");
-          done();
         });
+      done();
     });
 
     it("Should retrun all the user in the database", done => {
@@ -75,8 +75,8 @@ describe("Users", function() {
           expect(res.body.data.message).to.equals("You are highly welcome");
           expect(res.body.data).to.have.property("token");
           expect(res.body.data).to.have.property("userId");
-          done();
         });
+      done();
     });
   });
 });
