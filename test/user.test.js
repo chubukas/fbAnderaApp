@@ -10,14 +10,15 @@ const app = require("../app");
 const { expect } = chai;
 
 chai.use(chaiHttp);
-describe("Users", () => {
+describe("Users", function() {
+  this.timeout("30s");
   describe("/POST Users", () => {
     it("Should send the user in the database", done => {
       const value = {
-        fname: "markseds12345",
-        lname: "lukeseds12345",
-        email: "chu@gmailseds12345.com",
-        password: "lokingsed",
+        fname: "markseds123455e",
+        lname: "lukeseds12345tr",
+        email: "chu@gmailseds123454.come",
+        password: "lokingsedf",
         gender: "female",
         jobRole: "staff",
         dept: "agic",
@@ -36,8 +37,8 @@ describe("Users", () => {
           );
           expect(res.body.data).to.have.property("token");
           expect(res.body.data).to.have.property("userId");
-          done();
         });
+      done();
     });
   });
 
@@ -55,8 +56,8 @@ describe("Users", () => {
             "User Is Not Registered, Please Resgister"
           );
           expect(res.body.status).to.equals("error");
-          done();
         });
+      done();
     });
 
     it("Should retrun all the user in the database", done => {
@@ -74,8 +75,8 @@ describe("Users", () => {
           expect(res.body.data.message).to.equals("You are highly welcome");
           expect(res.body.data).to.have.property("token");
           expect(res.body.data).to.have.property("userId");
-          done();
         });
+      done();
     });
   });
 });

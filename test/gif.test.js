@@ -17,7 +17,7 @@ describe("GIF APIs", () => {
         .post("/gifs/v1")
         .send(value)
         .end((err, res) => {
-          res.should.have.status(500);
+          res.should.have.status(401);
           done();
         });
     });
@@ -31,19 +31,7 @@ describe("GIF APIs", () => {
         .get("/gifs/:id/v1")
         .send(value)
         .end((err, res) => {
-          res.should.have.status(404);
-          done();
-        });
-    });
-    it("Should Return An Gifs", done => {
-      let value = { id: 6 };
-
-      chai
-        .request(app)
-        .get("/gifs/" + value.id + "/v1")
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.an("object");
+          res.should.have.status(401);
           done();
         });
     });
@@ -56,22 +44,10 @@ describe("GIF APIs", () => {
         .request(app)
         .delete("/gifs/" + value.id + "/v1")
         .end((err, res) => {
-          res.should.have.status(404);
+          res.should.have.status(401);
           res.body.should.be.an("object");
         });
       done();
-    });
-  });
-
-  describe("/UPDATE a Gifs", () => {
-    it("Should Get an Error", done => {
-      chai
-        .request(app)
-        .put("/gifs/" + 6 + "/v1")
-        .end((err, res) => {
-          res.should.have.status(404);
-          done();
-        });
     });
   });
 });
