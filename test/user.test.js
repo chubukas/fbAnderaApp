@@ -14,10 +14,10 @@ describe("Users", () => {
   describe("/POST Users", () => {
     it("Should send the user in the database", done => {
       const value = {
-        fname: "markseds12345",
-        lname: "lukeseds12345",
-        email: "chu@gmailseds12345.com",
-        password: "lokingsed",
+        fname: "markseds123455e",
+        lname: "lukeseds12345tr",
+        email: "chu@gmailseds123454.come",
+        password: "lokingsedf",
         gender: "female",
         jobRole: "staff",
         dept: "agic",
