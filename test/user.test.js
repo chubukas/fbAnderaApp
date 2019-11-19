@@ -10,7 +10,8 @@ const app = require("../app");
 const { expect } = chai;
 
 chai.use(chaiHttp);
-describe("Users", () => {
+describe("Users", function() {
+  this.timeout("5s");
   describe("/POST Users", () => {
     it("Should send the user in the database", done => {
       const value = {
