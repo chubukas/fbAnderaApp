@@ -7,7 +7,7 @@ const route = express.Router();
 
 //GET ROUTES
 route.get("/:gifid/v1", auth, gifController.getGif);
-route.get("/v1", auth, gifController.getAllGifs);
+route.get("/feed/v1", auth, gifController.getAllGifs);
 
 //POST ROUTES
 route.post("/v1", auth, upload.single("image"), gifController.createGif);
