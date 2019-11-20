@@ -6,7 +6,7 @@ const route = express.Router();
 
 //GET ROUTE
 route.get("/:id/v1", auth, articleConroller.getArticles);
-route.get("/v1", auth, articleConroller.getAllArticles);
+route.get("/feed/v1", auth, articleConroller.getAllArticles);
 
 //POST ROUTE
 route.post("/v1", auth, articleConroller.createArticle);
