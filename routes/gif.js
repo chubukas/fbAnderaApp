@@ -6,14 +6,14 @@ const auth = require("../middlewares/auth");
 const route = express.Router();
 
 //GET ROUTES
-route.get("/:gifid/v1", auth, gifController.getGif);
-route.get("/feed/v1", auth, gifController.getAllGifs);
+route.get("/:gifid", auth, gifController.getGif);
+route.get("/feed", auth, gifController.getAllGifs);
 
 //POST ROUTES
-route.post("/v1", auth, upload.single("image"), gifController.createGif);
-route.post("/:gifid/comment/v1", auth, gifController.postGifComment);
+route.post("/", auth, upload.single("image"), gifController.createGif);
+route.post("/:gifid/comment", auth, gifController.postGifComment);
 
 //DELETE ROUTES
-route.delete("/:id/v1", auth, gifController.deleteGif);
+route.delete("/:id", auth, gifController.deleteGif);
 
 module.exports = route;
