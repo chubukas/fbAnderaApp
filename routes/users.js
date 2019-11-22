@@ -4,7 +4,7 @@ const auth = require("../middlewares/auth");
 
 const route = express.Router();
 
-route.post("/createUser/v1", usersCollections.createUsers);
-route.post("/signIn/v1", usersCollections.signInUsers);
+route.post("/create-user", usersCollections.createUsers);
+route.post("/signin", usersCollections.signInUsers);
 
 module.exports = route;

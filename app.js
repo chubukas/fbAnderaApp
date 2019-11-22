@@ -25,8 +25,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use("/gifs", express.static("image"));
 
-app.use("/auth", UserRouter);
-app.use("/articles", articleRouter);
-app.use("/gifs", gifRouter);
+app.use("/api/v1/auth", UserRouter);
+app.use("/api/v1/articles", articleRouter);
+app.use("/api/v1/gifs", gifRouter);
 
 module.exports = app;
